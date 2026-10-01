@@ -1,6 +1,7 @@
 package es.castanon.penguinpush;
 
 import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
@@ -108,6 +109,9 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onResume() { super.onResume(); if (webView != null) webView.onResume(); }
     @Override protected void onDestroy() { if (webView != null) { webView.destroy(); webView = null; } super.onDestroy(); }
+    // Only the fallback for API 24-32. API 33+ uses the platform callback registered in onCreate.
+    // Lint cannot associate that conditional registration with this legacy override.
+    @SuppressLint("GestureBackNavigation")
     @SuppressWarnings("deprecation") @Override public void onBackPressed() { confirmExit(); }
     private void confirmExit() {
         new AlertDialog.Builder(this).setTitle("¿Salir de PenguinPush?").setMessage("Los niveles completados quedan guardados.")
